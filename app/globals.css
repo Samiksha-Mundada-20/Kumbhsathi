@@ -1,26 +1,172 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-serif, Georgia, serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sand: var(--sand);
+  --color-clay: var(--clay);
+  --color-marigold: var(--marigold);
+  --color-leaf: var(--leaf);
+  --color-ink: var(--ink);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 1rem;
+
+  --background: oklch(0.976 0.011 85.5);
+  --foreground: oklch(0.26 0.028 255);
+  --card: oklch(0.995 0.005 90);
+  --card-foreground: oklch(0.26 0.028 255);
+  --popover: oklch(0.995 0.005 90);
+  --popover-foreground: oklch(0.26 0.028 255);
+
+  /* saffron #d65a1f */
+  --primary: oklch(0.615 0.171 42.5);
+  --primary-foreground: oklch(0.985 0.008 85);
+
+  /* navy #1e2a39 */
+  --secondary: oklch(0.28 0.029 253);
+  --secondary-foreground: oklch(0.98 0.008 85);
+
+  --muted: oklch(0.945 0.014 84);
+  --muted-foreground: oklch(0.505 0.024 258);
+  --accent: oklch(0.93 0.037 74);
+  --accent-foreground: oklch(0.32 0.06 45);
+
+  --destructive: oklch(0.567 0.196 25.5);
+  --destructive-foreground: oklch(0.985 0.008 85);
+
+  --border: oklch(0.895 0.017 79);
+  --input: oklch(0.9 0.016 79);
+  --ring: oklch(0.615 0.171 42.5);
+
+  --sand: oklch(0.955 0.019 82);
+  --clay: oklch(0.72 0.106 48);
+  --marigold: oklch(0.82 0.145 78);
+  --leaf: oklch(0.58 0.075 155);
+  --ink: oklch(0.28 0.029 253);
+
+  /* elevation + effects */
+  --shadow-soft: 0 1px 2px oklch(0.3 0.03 45 / 0.04), 0 8px 24px -12px oklch(0.3 0.03 45 / 0.14);
+  --shadow-raised: 0 2px 6px oklch(0.3 0.03 45 / 0.06), 0 20px 44px -20px oklch(0.3 0.03 45 / 0.22);
+  --shadow-glow: 0 18px 40px -18px oklch(0.615 0.171 42.5 / 0.55);
+  --gradient-warm: linear-gradient(135deg, oklch(0.98 0.014 85), oklch(0.945 0.036 72));
+  --gradient-saffron: linear-gradient(135deg, oklch(0.66 0.16 55), oklch(0.585 0.175 35));
+  --gradient-ink: linear-gradient(140deg, oklch(0.31 0.032 253), oklch(0.22 0.026 255));
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+
+  ::selection {
+    background: oklch(0.615 0.171 42.5 / 0.2);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+@utility shadow-raised {
+  box-shadow: var(--shadow-raised);
+}
+
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+@utility bg-warm {
+  background-image: var(--gradient-warm);
+}
+
+@utility bg-saffron {
+  background-image: var(--gradient-saffron);
+}
+
+@utility bg-ink {
+  background-image: var(--gradient-ink);
+}
+
+@utility glass {
+  background: color-mix(in oklab, var(--card) 65%, transparent);
+  backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility glass-dark {
+  background: color-mix(in oklab, var(--secondary) 55%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid color-mix(in oklab, white 12%, transparent);
+}
+
+@utility blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(72px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+@utility card-surface {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease, border-color 220ms ease;
+}
+
+@utility card-hover {
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-raised);
+    border-color: color-mix(in oklab, var(--primary) 35%, var(--border));
+  }
+}
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
 }
